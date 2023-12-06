@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button, FlatList, Modal, StatusBar} from 'react-native';
+import { StyleSheet, Text, View, Button, StatusBar} from 'react-native';
 import {useState} from 'react'
 import CustomModal from './components/CustomModal';
 import CustomInput from './components/CustomInput';
@@ -16,7 +16,6 @@ export default function App() {
 
 
   const onChangeTextHandler = (text) =>{
-    //console.log(text)
     setTextItem(text)
     console.log(textItem)
   }
@@ -24,20 +23,17 @@ export default function App() {
   const addItemToListHandler = () =>{
     if(textItem.length > 0){
       setItemList(prevState =>[...prevState, {id:Math.random().toFixed(3).toString(), value:textItem}])
-      console.log('ESTE ES EL ITEM DE LA LISTA -->',itemList)
-      console.dir(itemList)
       setTextItem('')
     }else{
       setEmptyTaskModal(true)
       setTimeout(()=>{
         setEmptyTaskModal(false)
       },2500)
-      console.log('no se puede agregar tarea vacía ')
+      console.error('No puedes agregar una tarea vacía')
     }
    
   }
 
-  // nota/reminder: lleva doble llave porque es un destructuring (eg. {props.item} --> {{item}} esto es debido a que item es parte de un objeto más grande) + return implícito s/ llaves ni return reserverd word
   const renderListItem = ({item})=>(
     <View  style={styles.itemList}>
       <Text>{item.value}</Text>
@@ -45,7 +41,7 @@ export default function App() {
     </View>
   )
 
-  //por qué si en lugar de find uso filter, no funciona.. a pesar de que el filter devuelve solo 1 elemento pero aún así no se borra
+  //¿por qué si en lugar de find uso filter, no funciona.. a pesar de que el filter devuelve solo 1 elemento pero aún así no se borra?
   const onSelectItemHandler =(id)=>{
     setModalVisible(!modalVisible)
     setItemSelectedToDelete(itemList.find(item => item.id === id))
@@ -73,16 +69,6 @@ export default function App() {
           animationTypeProp ="slide"
           isVisibleProp = {emptyTaskModal}
         />
-        {/* <Modal visible={emptyTaskModal}>
-          <View>
-            <Text>¡OOPss! No Puedes Agregar una Tarea Vacia</Text>
-          </View>
-        </Modal> */}
-        {/* {emptyTaskMessage ? 
-          <Text>No puedes ingresar una tarea vacia</Text>
-          :
-          ''
-        } */}
         <CustomFlatList
           itemListProp = {itemList}
           renderListItemEvent = {renderListItem} // se considera event por ser función? o prop?

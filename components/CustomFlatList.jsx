@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet} from 'react-native'
+import { FlatList} from 'react-native'
 import React from 'react'
 
 const CustomFlatList = ({
@@ -8,12 +8,14 @@ const CustomFlatList = ({
 }) => {
   return (
     <FlatList
-    data={itemListProp} // el array que va a renderizar en lista
-    renderItem={renderListItemEvent} // el formato para renderizar (los componentes y estructura)
-    keyExtractor={item=>item.id} //el id
+    data={itemListProp}
+    renderItem={renderListItemEvent} 
+    keyExtractor={item=>item.id} 
   />    
   )
 }
 
 export default CustomFlatList
+
+// ¿ por qué no me funciona el stylesheet si lo muevo acá? es porque el RenderItem function está en app? debería migrarlo también para acá?
 
