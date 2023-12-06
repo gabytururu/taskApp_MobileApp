@@ -3,6 +3,7 @@ import {useState} from 'react'
 import CustomModal from './components/CustomModal';
 import CustomInput from './components/CustomInput';
 import CustomFlatList from './components/CustomFlatList';
+import EmptyTaskMsgModal from './components/EmptyTaskMsgModal';
 
 
 export default function App() {
@@ -10,6 +11,9 @@ export default function App() {
   const [itemList, setItemList] = useState([])
   const [itemSelectedToDelete, setItemSelectedToDelete] = useState({})
   const [modalVisible, setModalVisible] = useState(true)
+  const [emptyTaskModal, setEmptyTaskModal] = useState(false)
+
+
 
   const onChangeTextHandler = (text) =>{
     //console.log(text)
@@ -18,17 +22,26 @@ export default function App() {
   }
 
   const addItemToListHandler = () =>{
-    setItemList(prevState =>[...prevState, {id:Math.random().toFixed(3).toString(), value:textItem}])
-    console.log('ESTE ES EL ITEM DE LA LISTA -->',itemList)
-    console.dir(itemList)
-    setTextItem('')
+    if(textItem.length > 0){
+      setItemList(prevState =>[...prevState, {id:Math.random().toFixed(3).toString(), value:textItem}])
+      console.log('ESTE ES EL ITEM DE LA LISTA -->',itemList)
+      console.dir(itemList)
+      setTextItem('')
+    }else{
+      setEmptyTaskModal(true)
+      setTimeout(()=>{
+        setEmptyTaskModal(false)
+      },2500)
+      console.log('no se puede agregar tarea vacía ')
+    }
+   
   }
 
   // nota/reminder: lleva doble llave porque es un destructuring (eg. {props.item} --> {{item}} esto es debido a que item es parte de un objeto más grande) + return implícito s/ llaves ni return reserverd word
   const renderListItem = ({item})=>(
     <View  style={styles.itemList}>
       <Text>{item.value}</Text>
-      <Button title='x' onPress={()=> onSelectItemHandler(item.id)}></Button>
+      <Button color='#e95c41' title='x' onPress={()=> onSelectItemHandler(item.id)}></Button>
     </View>
   )
 
@@ -47,22 +60,33 @@ export default function App() {
 
   return (
     <>
-      <View style={styles.container}>        
+      <Text style={styles.text}>Mi Lista de Tareas</Text>  
+      <View style={styles.container}>  
+            
         <CustomInput
           textItemProp={textItem}
-          InputPlaceholderMsgProp="Ingrese Nueva Tarea"
+          InputPlaceholderMsgProp="Ingresa una Nueva Tarea"
           onChangeTextHandlerEvent = {onChangeTextHandler}
           addItemToListHandlerEvent = {addItemToListHandler}
         />
+        <EmptyTaskMsgModal
+          animationTypeProp ="slide"
+          isVisibleProp = {emptyTaskModal}
+        />
+        {/* <Modal visible={emptyTaskModal}>
+          <View>
+            <Text>¡OOPss! No Puedes Agregar una Tarea Vacia</Text>
+          </View>
+        </Modal> */}
+        {/* {emptyTaskMessage ? 
+          <Text>No puedes ingresar una tarea vacia</Text>
+          :
+          ''
+        } */}
         <CustomFlatList
           itemListProp = {itemList}
           renderListItemEvent = {renderListItem} // se considera event por ser función? o prop?
         />
-        {/* <FlatList
-          data={itemList} // el array que va a renderizar en lista
-          renderItem={renderListItem} // el formato para renderizar (los componentes y estructura)
-          keyExtractor={item=>item.id} //el id
-        />     */}
       </View>
       <CustomModal
         animationTypeProp="fade"
@@ -79,12 +103,21 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'salmon',
+    backgroundColor: '#92E0D7',
     margin: 10,
     padding: 15,
     borderRadius:8,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+  },
+  text:{
+    textAlign: 'center',
+    paddingVertical:15,
+    fontSize: 35,
+    color:'#2c686e', 
+    fontFamily: 'sans-serif',
+    textShadowColor:'#444444',
+    textShadowOffset:{width:2,height:1},
+    textShadowRadius:3    
+
   },
   itemList:{
     flexDirection: 'row',
@@ -94,7 +127,14 @@ const styles = StyleSheet.create({
     borderBottomColor: 'gray',
     borderBottomWidth: 3,
     alignItems: 'center',
-    backgroundColor: 'yellow',
-    borderRadius: 5
+    backgroundColor: '#FFE8A2',
+    borderRadius: 5,
+    
   },
+  // por qué no funciona?
+  deleteButton:{
+    color: 'red',
+    backgroundColor: 'green'
+  }
+  
 });

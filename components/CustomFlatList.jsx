@@ -17,16 +17,3 @@ const CustomFlatList = ({
 
 export default CustomFlatList
 
-// const styles = StyleSheet.create({  
-//   itemList:{
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     margin:5,
-//     padding: 5, 
-//     borderBottomColor: 'gray',
-//     borderBottomWidth: 3,
-//     alignItems: 'center',
-//     backgroundColor: 'yellow',
-//     borderRadius: 5
-//   },
-// })

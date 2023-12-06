@@ -19,7 +19,7 @@ const CustomInput = ({
       <Button 
         style={styles.addButton}
         title='Add'
-        color='green'
+        color='#1aa795'
         onPress={addItemToListHandlerEvent}
       />
   </View>      
@@ -30,7 +30,7 @@ export default CustomInput
 
 const styles = StyleSheet.create({
   inputContainer:{
-    backgroundColor: 'orange',
+    backgroundColor: '#ffffff',
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
@@ -38,14 +38,17 @@ const styles = StyleSheet.create({
     width:250,
     padding:5,
     margin:5,
-    // backgroundColor:'blue',
-    borderBottomColor: 'purple',
+    backgroundColor:'#f1f1f1',
+    borderBottomColor: '#FFC903',
     borderBottomWidth: 3
+
   },
    //por qué no funciona?? pareciera que solo funciona si hago el styling inline
    addButton:{
     color: 'green',
     textAlign: 'center',
-    marginTop: 1
+    marginTop: 1,
+    padding: 10
+    
   },
 })
